@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head> 
+    <title>Profile details</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/ionicons.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+    <meta name="description" content="ClownPits is a gamming leading gamming plateform of india, where yiu can participate in tournament and make monney." />
+    <meta name="keywords" content="clownpits,clown pits,gaming,gamming website,online game,play,play games, indian gammers">
+    <meta name="author" content="Mohit Agarwal - mohitagarwal1432@gmail.com, Shobhit Maheshwari">
+    <link rel="icon" type="image/png" href="images/clownpitsico.png">
+      
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/api.js"></script>
+      
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="css/toastr.css">
+      
+    <script src="js/jquery.min.js"></script>
+    <script src="js/toastr.js"></script>  
+    
+    <style>
+        .login-dark 
+        {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-dark form 
+        {
+            background-color:rgba(0,0,0,0.8);
+            width: 80%;
+            padding:40px;
+            border-radius:4px;
+            color:#fff;
+            box-shadow:3px 3px 4px rgba(0,0,0,0.2);
+        }
+        #popup-box-1,#popup-box-2
+        {
+            position: fixed;
+            width: 100%;
+            height:100%;
+            top:0%;
+            left: 0%;
+            background-color: rgba(0,0,0,0.95);
+            color: white;
+            z-index: 10;
+            display: none;
+            flex-flow: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .spinner
+        {
+            width: 150px;
+            height:150px;
+            border-radius:50%;
+        }
+        @media screen and (max-width: 992px) 
+        {
+            .login-dark form 
+            {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+        @media screen and (max-width: 600px) 
+        {
+            .login-dark form 
+            {
+                width: 100%;
+                padding: 10px;
+            }
+            
+        }
+  
+    </style>
+  </head>
+  <body>
+	<!-- END nav -->
+<section class="ftco-section ">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <h2 class="mb-4">Fill info</h2>
+                <h5>Start Playing With “Clown Pits”</h5>
+            </div>
+        </div>
+        <div class="container">
+            <div class="login-dark">
+                <form id="signup-form" onsubmit="return sendDetails()">
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="name" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" id="age" type="number" placeholder="Age" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="number" id="mobile" placeholder="Mobile" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" id="city" placeholder="City" required>
+                    </div>
+                    <div class="form-group row">
+                            <label class="col-lg-3 col-form-label form-control-label">State</label>
+                            <div class="col-lg-9">
+                                <select name="state" id="state" class="form-control">
+                                    <option style="color:black" value="Andhra Pradesh">Andhra Pradesh</option>
+                                    <option style="color:black" value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                    <option style="color:black" value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                    <option style="color:black" value="Assam">Assam</option>
+                                    <option style="color:black" value="Bihar">Bihar</option>
+                                    <option style="color:black" value="Chandigarh">Chandigarh</option>
+                                    <option style="color:black" value="Chhattisgarh">Chhattisgarh</option>
+                                    <option style="color:black" value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                                    <option style="color:black" value="Daman and Diu">Daman and Diu</option>
+                                    <option style="color:black" value="Delhi">Delhi</option>
+                                    <option style="color:black" value="Lakshadweep">Lakshadweep</option>
+                                    <option style="color:black" value="Puducherry">Puducherry</option>
+                                    <option style="color:black" value="Goa">Goa</option>
+                                    <option style="color:black" value="Gujarat">Gujarat</option>
+                                    <option style="color:black" value="Haryana">Haryana</option>
+                                    <option style="color:black" value="Himachal Pradesh">Himachal Pradesh</option>
+                                    <option style="color:black" value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                    <option style="color:black" value="Jharkhand">Jharkhand</option>
+                                    <option style="color:black" value="Karnataka">Karnataka</option>
+                                    <option style="color:black" value="Kerala">Kerala</option>
+                                    <option style="color:black" value="Madhya Pradesh">Madhya Pradesh</option>
+                                    <option style="color:black" value="Maharashtra">Maharashtra</option>
+                                    <option style="color:black" value="Manipur">Manipur</option>
+                                    <option style="color:black" value="Meghalaya">Meghalaya</option>
+                                    <option style="color:black" value="Mizoram">Mizoram</option>
+                                    <option style="color:black" value="Nagaland">Nagaland</option>
+                                    <option style="color:black" value="Odisha">Odisha</option>
+                                    <option style="color:black" value="Punjab">Punjab</option>
+                                    <option style="color:black" value="Rajasthan">Rajasthan</option>
+                                    <option style="color:black" value="Sikkim">Sikkim</option>
+                                    <option style="color:black" value="Tamil Nadu">Tamil Nadu</option>
+                                    <option style="color:black" value="Telangana">Telangana</option>
+                                    <option style="color:black" value="Tripura">Tripura</option>
+                                    <option style="color:black" value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option style="color:black" value="Uttarakhand">Uttarakhand</option>
+                                    <option style="color:black" value="West Bengal">West Bengal</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                    <div class="form-group">
+                        <select class="form-control" name="gender" id="gender" placeholder="Gender" required>
+                            <option style="color:black" value="Male">Male</option>
+                            <option style="color:black" value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="popup-box-1">
+        <div class="spinner-border spinner text-warning" role="status">
+        </div>
+        <br>
+        <p style="font-size:28px">Waiting for email verification.</p>
+        <p><span style="text-decoration:underline;cursor:pointer">Resend</span> the conformation mail.</p>
+    </div>
+		
+		
+
+<footer class="ftco-footer ftco-section img" id="contactus" style="padding-top:10%;padding-bottom:0px;">
+    	<div class="overlay"></div>
+      <div class="container">
+        <div class="row mb-5">
+        
+         
+          <div class="col-lg-6 col-md-6 mb-12 mb-md-12">
+             <div class="ftco-footer-widget mb-4 ml-md-4">
+			  <h1 style="font-family: 'Lobster', cursive;">CONTACT<br> US !</h1>
+			  <!-- <h2 style="font-family: 'Permanent Marker', cursive;">We will give you solution </h2> -->
+              <!-- <ul class="list-unstyled">
+                <li><a href="#" class="py-2 d-block">Cooked</a></li>
+                <li><a href="#" class="py-2 d-block">Deliver</a></li>
+                <li><a href="#" class="py-2 d-block">Quality Foods</a></li>
+                <li><a href="#" class="py-2 d-block">Mixed</a></li>
+              </ul> -->
+            </div>
+          </div>  
+          <div class="col-lg-6 col-md-6 mb-12 mb-md-12">
+            <div class="ftco-footer-widget mb-4">
+            	<h2 class="ftco-heading-2">Have a Questions?</h2>
+            	<div class="block-23 mb-3">
+	              <ul>
+						<li class="ftco-animate"><p class="ftco-animate" style="font-family: 'Kalam', cursive;"><a  href="mailto:contact@clownpits.com">contact@clownpits.com</a></p></li>						
+						<li class="ftco-animate"><p class="ftco-animate" style="font-family: 'Kalam', cursive;">Mail your Queries and Leave on Us</p></li>
+						<li class="ftco-animate"><p class="ftco-animate" style="font-family: 'Kalam', cursive;">FIND US ON</p></li>
+						<li>
+							<ul class="none"style="  display:flex;  
+							list-style:none;">
+
+								<li ><a href="https://mobile.twitter.com/ClownPits"><span class="icon-twitter"></span></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<li  ><a href="https://www.facebook.com/clownpits"><span class="icon-facebook"></span></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<li ><a href="https://www.instagram.com/clownpits_official?r=nametag"><span class="icon-instagram"></span></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					</ul></li>
+	 <!-- 	               <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
+	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li> -->
+					
+					<br>
+	              </ul>
+	            </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --</p>
+          </div>
+        </div> -->
+      </div>
+    </footer>
+    
+  
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
+<script src="js/user-config.js"></script>
+<script>  
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+</script>
+<script>
+    var email;
+    var pass;
+    var timer;
+    toastr.info("Checking your details.");
+    firebase.auth().onAuthStateChanged(function(user)
+    {
+        if(user)
+        {
+            emailVerified = user.emailVerified;
+            if(!emailVerified)
+            {
+                toastr.warning("Something went wrong. We have detected unusual activity.");
+                firebase.auth().signOut(); 
+            }
+            else
+            {
+                toastr.success("You are verified. Please fill the details.");
+            }
+            
+        }
+        else
+        {
+            toastr.error("You don't have access to this page.");
+            setTimeout(function(){window.open("index.html",'_self')},2000);
+        }
+    });
+    
+    function emailVerificationCheck()
+            {
+                firebase.auth().signInWithEmailAndPassword(email, pass);
+                firebase.auth().onAuthStateChanged(function(checkUser) {
+                    if (checkUser) 
+                    {
+                        emailVerified = checkUser.emailVerified;
+                        if(emailVerified)
+                        {
+                            toastr.success("Your email is verified..");
+                            document.getElementById("popup-box-1").style.display="none";
+                            clearInterval(timer);
+                            firebase.auth().signInWithEmailAndPassword(email, pass);
+                            return;
+                        }
+                    } 
+                });
+                firebase.auth().signOut();
+            }
+    
+    function sendDetails()
+    {
+        var name= document.getElementById("name").value;
+        var age = document.getElementById("age").value;
+        age=parseInt(age);
+        var mobile = document.getElementById("mobile").value;
+        mobile=parseInt(mobile);
+        var state = document.getElementById("state").value;
+        var city = document.getElementById("city").value;
+        var gender = document.getElementById("gender").value;
+        var allOk=1;
+        if(name.length<3)
+        {
+            allOk=0;
+            toastr.error("Please provide a valide name.");
+        }
+        if(age<13||age>120||isNaN(age))
+        {
+            allOk=0;
+            toastr.error("Please provide a valide age. You age must be between 13 - 120.");
+        }
+        if(mobile<1111111111||mobile>9999999999||isNaN(mobile))
+        {
+            allOk=0;
+            toastr.error("Please provide a valide mobile number.");
+        }
+        if(state.length<2)
+        {
+            allOk=0;
+            toastr.error("Please choose a valide state name.");
+        }
+        if(city.length<2)
+        {
+            allOk=0;
+            toastr.error("Please provide a valide city name.");
+        }
+        if(gender.length<3)
+        {
+            allOk=0;
+            toastr.error("Please choose a valide gender.");
+        }
+        if(allOk)
+        {
+            console.log(name+"  "+age+"  "+mobile+"  "+state+"  "+city+"  "+gender);
+            toastr.info("Creating your profile. Please wait...");
+            data = 
+            {
+                "name": name,
+                "age": age,
+                "mobile": mobile,
+                "state": state,
+                "city": city,
+                "gender": gender
+            }
+            firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(id) 
+            {
+                console.log(id);
+                //checkProfileData(id);
+                fetch(apiUrlUser+'/modules/users/me',{
+                    mode: 'cors',
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: 
+                    {
+                        'Content-Type': 'application/json',
+                        'Connection': 'keep-alive',
+                        'Authorization': 'Bearer '+id
+                    },
+                }).then((e) => 
+                {
+                    return e.json()
+                }).then((e) =>  
+                {
+                    if(e.error)
+                    {
+                        toastr.error(e.error);
+                    }
+                    else
+                    {
+                        toastr.success("Your Profile is created.");
+                        window.open("index.html","_self")
+                    }
+                })
+            }).catch(function(error) 
+            {
+            //if error while fatching the token    
+            }); 
+        }
+        return false;
+    }
+</script>
+
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/bootstrap-datepicker.js"></script>
+  <script src="js/jquery.timepicker.min.js"></script>
+  <script src="js/scrollax.min.js"></script>
+  <script src="js/main.js"></script>
+    
+  </body>
+</html>

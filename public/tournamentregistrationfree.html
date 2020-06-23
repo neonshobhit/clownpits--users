@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Tournament</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/ionicons.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+      
+    <meta name="description" content="ClownPits is a gamming leading gamming plateform of india, where yiu can participate in tournament and make monney." />
+    <meta name="keywords" content="clownpits,clown pits,gaming,gamming website,online game,play,play games, indian gammers">
+    <meta name="author" content="Mohit Agarwal - mohitagarwal1432@gmail.com, Shobhit Maheshwari">
+    <link rel="icon" type="image/png" href="images/clownpitsico.png">
+    
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="css/toastr.css">
+    <link rel="stylesheet" href="css/style.css">
+    
+    <link rel="stylesheet" href="css/flipdown.css">
+    <script src="js/flipdown.js"></script>
+    
+    <script src="js/api.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/toastr.js"></script>
+      
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script> 
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
+    <script src="js/profile.js"></script>
+    <script>
+        var params = new URLSearchParams(location.search);
+        tournamentId = params.get('tid');
+        tournamentType = params.get("type");
+    </script>
+    <style>
+        .login-dark 
+        {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-dark form 
+        {
+            background-color:rgba(0,0,0,0.8);
+            width: 80%;
+            padding:40px;
+            border-radius:4px;
+            color:#fff;
+            box-shadow:3px 3px 4px rgba(0,0,0,0.2);
+        }
+         #popup-box-1
+        {
+            position: fixed;
+            width: 100%;
+            height:100%;
+            top:0%;
+            left: 0%;
+            background-color: rgba(0,0,0,0.95);
+            color: white;
+            z-index: 10;
+            display: none;
+            flex-flow: column;
+            justify-content: center;
+            align-items: center;
+            overflow: scroll;
+            padding-top: 200px;
+        }
+        #close-model
+        {
+            position: absolute;
+            right: 50px;
+            top:15px;
+            font-size: 35px;
+            font-weight: bolder;
+            cursor: pointer;
+        }
+        .tournament-image
+        {
+            height:500px;
+            width:80%;
+            margin:auto;
+        }
+        .tournament-info
+        {
+            text-align: center;
+        }
+        .flipdown-add
+        {
+            padding: 0px;
+            margin: 0px;
+            transform: scale(0.5);
+            margin: auto;
+        }
+        .flipdown.flipdown__theme-dark .rotor-group-heading:before 
+        {
+            color: white;
+            font-size: 20px;
+        }
+        @media screen and (max-width: 992px) 
+        {
+            .login-dark form 
+            {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+        @media screen and (max-width:700px)
+        {
+            .tournament-image
+            {
+                height:350px;
+                width: 100%;
+            }
+            .flipdown-add
+            {
+                padding: 0px;
+                margin: 0px;
+                margin: auto;
+            }
+            .flipdown.flipdown__theme-dark .rotor-group-heading:before 
+            {
+                color: white;
+                font-size: 12px;
+            }
+        }
+        @media screen and (max-width: 600px) 
+        {
+            .login-dark form 
+            {
+                width: 100%;
+                padding: 10px;
+            }
+            
+        }
+        @media screen and (max-width:500px)
+        {
+            .flipdown-add
+            {
+                padding: 0px;
+                margin: 0px;
+                transform: scale(0.8);
+                margin: auto;
+            }
+            .flipdown.flipdown__theme-dark .rotor-group-heading:before 
+            {
+                color: white;
+                font-size: 12px;
+            }
+        }
+    </style>
+    <script>
+        function registerForTournament(tId,team)
+        {
+            toastr.info("Checking your info, Please wait...");
+            authstate.onAuthStateChanged(function(user)
+            {
+                //console.log("checking");
+                if(user)
+                {
+                    toastr.success("All right, Fill the game id's of all the participants.");
+                    document.getElementById("popup-box-1").style.display="flex";
+                    console.log(tId+"  "+team);
+                    team=parseInt(team);
+                    document.getElementById("game-id-form").name=team;
+                    for(var i=0;i<team;i++)
+                    {
+                        if(i==0)
+                        {
+                            document.getElementById("game-id-form").innerHTML="<div class='form-group'><input class='form-control' type='text' id='player"+i+"' placeholder='Enter Captain game Id' required></div>";
+                        }
+                        else
+                        {
+                            document.getElementById("game-id-form").innerHTML+="<div class='form-group'><input class='form-control' type='text' id='player"+i+"' placeholder='Enter Player"+i+" game Id'></div>";                    
+                        }
+                    }
+                    document.getElementById("game-id-form").innerHTML+="<br><div class='form-group'><button class='btn btn-primary btn-block' type='submit'>Next</button></div>";
+                }
+                else
+                {
+                    toastr.error("You are not signed in, Please sign in first");
+                    setTimeout(function(){window.open('signin.html','_blank');},2000);
+                }
+            });
+        }
+        function closeModel()
+        {
+            document.getElementById("popup-box-1").style.display="none";
+        }
+        function saveGameId(size)//value is comming from foem name attribute
+        {
+            console.log(size);
+            var gameIds = [];
+            for(var i=0;i<size;i++)
+            {
+                gameIds.push(document.getElementById("player"+i).value);
+            }
+            console.log(gameIds);
+            toastr.info("Sending details, Please wait untile a success message apears...");
+            var authstate=firebase.auth();
+            var user = authstate.currentUser;
+            if (user) 
+            {
+                authstate.currentUser.getIdToken(/* forceRefresh */ true).then(function(id) 
+                {
+                    getUserName(id)
+                    .then((userDetails)=>{
+                        data = 
+                        {
+                            "name": userDetails.name,
+                            "mobile": userDetails.mobile,
+                            "email": user.email,
+                            "gameId": gameIds,
+                            "userUID": user.uid
+                        }
+                        fetch(apiUrlAdmin+'/modules/freeParticipants/'+tournamentId,{
+                            mode: 'cors',
+                            method: 'POST',
+                            body: JSON.stringify(data),
+                            headers: 
+                            {
+                                'Content-Type': 'application/json',
+                                'Connection': 'keep-alive',
+                                'Authorization': 'Bearer '+id
+                            },
+                        }).then((e) => 
+                                {
+                            return e.json()
+                        }).then((e) =>  
+                        {
+                            if(e.error)
+                            {
+                                toastr.warning(e.error);
+                            }
+                            else
+                            {
+                                toastr.success(e.message);
+                                saveAsPriviousTournaments(tournamentTitle,tournamentId,id);
+                            }
+                        })
+                        
+                    })
+                    .catch((error)=>{
+                        toastr.error(error);
+                    });
+                    
+                })
+            }
+            else 
+            {
+                toastr.error("You don't have permission to Register, Please sign in first");
+            } 
+            
+            closeModel();
+            return false;
+        }
+        
+        function getUserName(id)
+        {
+            var name;
+            return new Promise((resolve,reject)=>{
+                
+                fetch(apiUrlUser+'/modules/users/me',{
+                    method: 'GET',
+                    headers: 
+                    {
+                        'Content-Type': 'application/json',
+                        'Connection': 'keep-alive',
+                        'Authorization': 'Bearer '+id
+                    },
+                }).then(res =>{
+                    if(res.ok)
+                    {
+                        //console.log("Successfull");
+                        res.json().then(function(data)
+                        {
+                            if(data.error)
+                            {
+                                reject("No data found")
+                            }
+                            else
+                            {
+                                resolve({"name":data.name,"mobile":data.mobile});
+                            }
+                        });
+                    }
+                });
+                
+            })
+            
+        }
+        function saveAsPriviousTournaments(title,tid,id)
+        {
+            var authstate=firebase.auth();
+            var user = authstate.currentUser;
+            if (user) 
+            {
+                authstate.currentUser.getIdToken(/* forceRefresh */ true).then(function(id) 
+                {
+                    data = 
+                    {
+                        "type": "Free",
+                        "title": title,
+                        "cost": "0",
+                        "pid":"NA",
+                        "tournamentId":tid
+                    }
+                    fetch(apiUrlUser+'/modules/participantsInAllTournaments',{
+                        mode: 'cors',
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: 
+                        {
+                            'Content-Type': 'application/json',
+                            'Connection': 'keep-alive',
+                            'Authorization': 'Bearer '+id
+                        },
+                    }).then((e) => 
+                    {
+                        return e.json()
+                    }).then((e) =>  
+                    {
+                        if(e.error)
+                        {
+                            toastr.warning(e.error);
+                        }
+                        else
+                        {
+                            toastr.success(e.message);            
+                        }
+                    })     
+                    
+                })
+            }
+            
+        }
+    </script>
+  </head>
+  <body>
+  	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar"  >
+	    <div class="container"  >
+	      <a class="navbar-brand" href="index.html"><img src="images/clown.png" alt="" width="60px" height="60px">ClownPits</a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item "><a href="index.html" class="nav-link">Home</a></li>
+	          <li class="nav-item active"><a href="tournaments.html" class="nav-link">Tournament</a></li>
+	          <li class="nav-item"><a href="streaming.html" class="nav-link">CP TV</a></li>
+	          <li class="nav-item"><a href="merchandise.html" class="nav-link">Merchandise</a></li>
+	          <li class="nav-item"><a href="blog.html" class="nav-link">Blogs</a></li>
+              <li class="nav-item" id="login" style="display:none"><a href="signin.html" class="nav-link">Login</a></li>
+	          <li class="nav-item" id="profile" style="display:none"><a href="profile.html" class="nav-link">Profile</a></li>
+	        </ul>
+	      </div>
+		  </div>
+		</nav>
+      <!-- END nav -->
+<section  style="padding-top: 4em;">
+    	
+</section>
+<div id="popup-box-1">
+    <p id="close-model" onclick="closeModel();">&times;</p>
+    <div class="login-dark">
+        <form id="game-id-form" name="" onsubmit="return saveGameId(this.name)">
+            
+        </form>
+    </div>
+</div>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <h2 class="mb-4">Tournament Registration</h2>
+            </div>
+		</div>
+    </div>
+    <div class="container">
+        <div class="row d-flex" style="justify-content:center" id="insert-tournament">
+            <div style="" class="spinner-border spinner text-warning" role="status">
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ftco-about">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <h2 class="mb-4">Result</h2>
+            </div>
+		</div>
+    </div>
+    <div class="container">
+        <div class="row d-flex" id="result-error" style="justify-content:center;margin:0 5%" >
+            <div style="" id="result-loader" class="spinner-border spinner text-warning" role="status">
+            </div>
+        </div>
+        <div id="result-table"  style="display:none" class="overflow-auto">
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Sno</th>
+                        <th scope="col">Captain Id</th>
+                        <th scope="col">Prize</th>
+                        <th scope="col">Rank</th>
+                    </tr>
+                </thead>
+                <tbody id="insert-result-table">
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<footer class="ftco-footer ftco-section img" id="contactus" style="padding-top:10%;padding-bottom:0px;">
+    	<div class="overlay"></div>
+      <div class="container">
+        <div class="row mb-5">
+        
+         
+          <div class="col-lg-6 col-md-6 mb-12 mb-md-12">
+             <div class="ftco-footer-widget mb-4 ml-md-4">
+			  <h1 style="font-family: 'Lobster', cursive;">CONTACT<br> US !</h1>
+			  <!-- <h2 style="font-family: 'Permanent Marker', cursive;">We will give you solution </h2> -->
+              <!-- <ul class="list-unstyled">
+                <li><a href="#" class="py-2 d-block">Cooked</a></li>
+                <li><a href="#" class="py-2 d-block">Deliver</a></li>
+                <li><a href="#" class="py-2 d-block">Quality Foods</a></li>
+                <li><a href="#" class="py-2 d-block">Mixed</a></li>
+              </ul> -->
+            </div>
+          </div>  
+          <div class="col-lg-6 col-md-6 mb-12 mb-md-12">
+            <div class="ftco-footer-widget mb-4">
+            	<h2 class="ftco-heading-2">Have a Questions?</h2>
+            	<div class="block-23 mb-3">
+	              <ul>
+						<li class="ftco-animate"><p class="ftco-animate" style="font-family: 'Kalam', cursive;"><a  href="mailto:contact@clownpits.com">contact@clownpits.com</a></p></li>						
+						<li class="ftco-animate"><p class="ftco-animate" style="font-family: 'Kalam', cursive;">Mail your Queries and Leave on Us</p></li>
+						<li class="ftco-animate"><p class="ftco-animate" style="font-family: 'Kalam', cursive;">FIND US ON</p></li>
+						<li>
+							<ul class="none"style="  display:flex;  
+							list-style:none;">
+
+								<li ><a href="https://mobile.twitter.com/ClownPits"><span class="icon-twitter"></span></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<li  ><a href="https://www.facebook.com/clownpits"><span class="icon-facebook"></span></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<li ><a href="https://www.instagram.com/clownpits_official?r=nametag"><span class="icon-instagram"></span></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					</ul></li>
+	 <!-- 	               <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
+	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li> -->
+					
+					<br>
+	              </ul>
+	            </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --</p>
+          </div>
+        </div> -->
+      </div>
+    </footer>
+
+    
+  
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<script>
+    var isApiLoadded=0;
+    var apitimer=0;
+    var tournamentTitle="";
+    function loadTournament()
+    {
+        var url=apiUrlAdmin+'/modules/freeTournaments/'+tournamentId;
+        fetch(url,{
+                  method: 'GET',
+                  headers: 
+                  {
+                    'Content-Type': 'application/json',
+                    'Connection': 'keep-alive'
+                  },
+            })
+            .then(res =>{
+                if(res.ok)
+                {
+                    //console.log("Successfull");
+                    res.json().then(function(data)
+                    {
+                        if(data.error)
+                        {
+                            document.getElementById("insert-tournament").innerHTML="<div style='width:100%;display:flex;justify-content:center;align-items: center;' id='carousel-loader'><h5 class='text-warning'>We cannot find the tournament, you are looing for.</h5></div>";
+                        }
+                        else
+                        {
+                            setTournament(data);
+                        }
+                    });
+                }
+                else
+                {
+                    toastr.error("We could not connect to internet.");
+                }
+            }).catch(error=> 
+            {
+                toastr.error("We could not connect to internet.");
+            });
+    }
+    loadTournament();
+        function setTournament(data)
+        {
+            {
+                tournamentTitle=data.title;
+                //document.getElementById('tournament-title').innerHTML=data.title;
+                document.getElementById("insert-tournament").innerHTML="<div class='col-md-12 d-flex ftco-animate'><div style='width:100%' class='align-self-stretch'><h3 style='text-align:center' class='heading mt-2'>"+data.title+"</h3><br><div class='block-20 tournament-image' style=\"background-image: url('"+data.image+"');\"></div><div class='tournament-info'><br><p>Registration Amount - "+data.amount+"</p><p>Team size - "+data.teamsize+"</p><p>"+data.desc+"</p><div class='flipdown flipdown-add' id='clock'></div><br><p><a href=\"javascript:registerForTournament('"+data.id+"','"+data.teamsize+"')\" class='btn btn-primary p-3 px-xl-4 py-xl-3'>Get Registered</a></p></div></div></div>";
+               
+                //console.log(tournamentData[j].enddate);
+                var d = new Date(data.enddate+" 23:59:00");
+                var n = d.getTime()/1000;
+                n=parseInt(n);
+                //console.log(n);
+                new FlipDown(n,"clock").start();
+            }
+            
+            ftco_animation();
+        }
+    function loadTournamentResult()
+    {
+        var url=apiUrlAdmin+"/modules/freeResults/"+tournamentId;
+        fetch(url,
+        {
+            method: 'GET',
+            headers: 
+            {
+                'Content-Type': 'application/json',
+                'Connection': 'keep-alive'
+            },
+        })
+        .then(res =>{
+            if(res.ok)
+            {
+                //console.log("Successfull");
+                res.json().then(function(data)
+                {
+                    if(data.error)
+                    {
+                        document.getElementById("result-error").innerHTML="<h5 class='text-warning'>Result is not published yet.</h5>";
+                    }
+                    else
+                    {
+                        for(var i=0;i<data.length;i++)
+                        {
+                            setTournamentResult(data[i],i);
+                        }
+                        ftco_animation();
+                    }
+                });
+            }
+            else
+            {
+                toastr.error("We could not connect to internet.");
+            }
+        }).catch(error=> 
+        {
+            toastr.error("We could not connect to internet.");
+        });
+    }
+    loadTournamentResult();
+    function setTournamentResult(data,i)
+    {
+        if(i==0)
+        {
+            document.getElementById("result-loader").style.display="none";
+            document.getElementById("result-table").style.display="block";
+            document.getElementById("insert-result-table").innerHTML="<tr><td>"+(i+1)+"</td><td>"+data.capId+"</td><td>"+data.prize+"</td><td>"+data.rank+"</td></tr>";
+           
+        }
+        else
+        {
+            document.getElementById("insert-result-table").innerHTML+="<tr><td>"+(i+1)+"</td><td>"+data.capId+"</td><td>"+data.prize+"</td><td>"+data.rank+"</td></tr>";
+        }
+        
+            
+    }
+        var ftco_animation = function() {
+		var i = 0;
+		$('.ftco-animate').waypoint( function( direction ) {
+
+			if( direction === 'down' && !$(this.element).hasClass('ftco-animated') ) {
+				
+				i++;
+
+				$(this.element).addClass('item-animate');
+				setTimeout(function(){
+
+					$('body .ftco-animate.item-animate').each(function(k){
+						var el = $(this);
+						setTimeout( function () {
+							var effect = el.data('animate-effect');
+							if ( effect === 'fadeIn') {
+								el.addClass('fadeIn ftco-animated');
+							} else if ( effect === 'fadeInLeft') {
+								el.addClass('fadeInLeft ftco-animated');
+							} else if ( effect === 'fadeInRight') {
+								el.addClass('fadeInRight ftco-animated');
+							} else {
+								el.addClass('fadeInUp ftco-animated');
+							}
+							el.removeClass('item-animate');
+						},  k * 50, 'easeInOutExpo' );
+					});
+					
+				}, 100);
+				
+			}
+
+		} , { offset: '95%' } );
+	};
+    
+</script>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery-migrate-3.0.1.min.js"></script>
+ <script src="js/popper.min.js"></script>
+ <script src="js/bootstrap.min.js"></script>
+ <script src="js/jquery.easing.1.3.js"></script>
+ <script src="js/jquery.waypoints.min.js"></script>
+ <script src="js/jquery.stellar.min.js"></script>
+ <script src="js/owl.carousel.min.js"></script>
+ <script src="js/jquery.magnific-popup.min.js"></script>
+ <script src="js/aos.js"></script>
+ <script src="js/jquery.animateNumber.min.js"></script>
+ <script src="js/bootstrap-datepicker.js"></script>
+ <script src="js/jquery.timepicker.min.js"></script>
+ <script src="js/scrollax.min.js"></script>
+ <script src="js/toastr.js"></script>
+  <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head> 
+    <title>Streaming</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+
+    <link rel="stylesheet" href="css/aos.css">
+
+    <link rel="stylesheet" href="css/ionicons.min.css">
+
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+
+    <meta name="description" content="ClownPits is a gamming leading gamming plateform of india, where yiu can participate in tournament and make monney." />
+    <meta name="keywords" content="clownpits,clown pits,gaming,gamming website,online game,play,play games, indian gammers">
+    <meta name="author" content="Mohit Agarwal - mohitagarwal1432@gmail.com, Shobhit Maheshwari">
+    <link rel="icon" type="image/png" href="images/clownpitsico.png">
+      
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="css/toastr.css">
+    <link rel="stylesheet" href="css/style.css">
+      
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/toastr.js"></script>
+      <script src="js/api.js"></script>
+    <style>
+        .video-cards
+        {
+            margin: 25px 0px;
+        }  
+        #video-modal
+        {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            overflow: hidden;
+            background-color: black;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        #video-close
+        {
+            position: absolute;
+            right: 50px;
+            top:15px;
+            font-size: 35px;
+            font-weight: bolder;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function closeModel()
+        {
+            document.getElementById("video-modal").style.display="none";
+            var player=document.getElementById("youtube");
+            player.src="";
+        }
+        function displayModal(url)
+        {
+            document.getElementById("video-modal").style.display="flex";
+            var player=document.getElementById("youtube");
+            player.src=url;
+        }
+    </script>
+  </head>
+  <body>
+      
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar"  >
+	    <div class="container"  >
+	      <a class="navbar-brand" href="index.html"><img src="images/clown.png" alt="" width="60px" height="60px">ClownPits</a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item "><a href="index.html" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="tournaments.html" class="nav-link">Tournament</a></li>
+	          <li class="nav-item active"><a href="streaming.html" class="nav-link">CP TV</a></li>
+	          <li class="nav-item"><a href="merchandise.html" class="nav-link">Merchandise</a></li>
+	          <li class="nav-item"><a href="blog.html" class="nav-link">Blogs</a></li>
+              <li class="nav-item" id="login" style="display:none"><a href="signin.html" class="nav-link">Login</a></li>
+	          <li class="nav-item" id="profile" style="display:none"><a href="profile.html" class="nav-link">Profile</a></li>
+	        </ul>
+	      </div>
+		  </div>
+		</nav>
+    <!-- END nav -->
+
+  
+<section  style="padding-top: 7em;">
+    	<div class="container">
+    		<div class="row justify-content-center mb-5">
+          <div class="col-md-7 heading-section text-center ftco-animate">
+            <h2 class="mb-4">CP <span>TV</span></h2>
+            <p>Take a look at the competition</p>
+          </div>
+		</div>
+		</div>
+</section>
+
+<section class="ftco-about" style="margin-top:0px; ">
+    <h2 class="col-md-12 col-sm-12 col-lg-12" style='text-align:center'>Featured</h2>
+    <div class="row d-flex" style="justify-content:center;margin:0 5%" id="featured-video">      
+        <div style="" class="spinner-border spinner text-warning" role="status"></div>
+    </div>
+</section>
+<section class="ftco-about" style="margin-top:0px; ">
+    <p>&nbsp;</p>
+    <h2 class="col-md-12 col-sm-12 col-lg-12" style='text-align:center'>Other Videos</h2>
+    <div class="row d-flex" style="justify-content:center;margin:0 5%" id="new-video">   
+        <div style="" class="spinner-border spinner text-warning" role="status"></div>
+    </div>
+</section>
+      
+<div id="video-modal">
+    <p id="video-close" onclick="closeModel();">&times;</p>
+    <iframe width="806" id="youtube" height="453" src="" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+
+<footer class="ftco-footer ftco-section img" id="contactus" style="padding-top:10%;padding-bottom:0px;">
+    	<div class="overlay"></div>
+      <div class="container">
+        <div class="row mb-5">
+        
+         
+          <div class="col-lg-6 col-md-6 mb-12 mb-md-12">
+             <div class="ftco-footer-widget mb-4 ml-md-4">
+			  <h1 style="font-family: 'Lobster', cursive;">CONTACT<br> US !</h1>
+			  <!-- <h2 style="font-family: 'Permanent Marker', cursive;">We will give you solution </h2> -->
+              <!-- <ul class="list-unstyled">
+                <li><a href="#" class="py-2 d-block">Cooked</a></li>
+                <li><a href="#" class="py-2 d-block">Deliver</a></li>
+                <li><a href="#" class="py-2 d-block">Quality Foods</a></li>
+                <li><a href="#" class="py-2 d-block">Mixed</a></li>
+              </ul> -->
+            </div>
+          </div>  
+          <div class="col-lg-6 col-md-6 mb-12 mb-md-12">
+            <div class="ftco-footer-widget mb-4">
+            	<h2 class="ftco-heading-2">Have a Questions?</h2>
+            	<div class="block-23 mb-3">
+	              <ul>
+						<li class="ftco-animate"><p class="ftco-animate" style="font-family: 'Kalam', cursive;"><a  href="mailto:contact@clownpits.com">contact@clownpits.com</a></p></li>						
+						<li class="ftco-animate"><p class="ftco-animate" style="font-family: 'Kalam', cursive;">Mail your Queries and Leave on Us</p></li>
+						<li class="ftco-animate"><p class="ftco-animate" style="font-family: 'Kalam', cursive;">FIND US ON</p></li>
+						<li>
+							<ul class="none"style="  display:flex;  
+							list-style:none;">
+
+								<li ><a href="https://mobile.twitter.com/ClownPits"><span class="icon-twitter"></span></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<li  ><a href="https://www.facebook.com/clownpits"><span class="icon-facebook"></span></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<li ><a href="https://www.instagram.com/clownpits_official?r=nametag"><span class="icon-instagram"></span></a></li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					</ul></li>
+	 <!-- 	               <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
+	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li> -->
+					
+					<br>
+	              </ul>
+	            </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --</p>
+          </div>
+        </div> -->
+      </div>
+    </footer>
+    
+  
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+<script>
+    var featuredv=0;
+    var newv=0;
+    fetch(apiUrlAdmin+'/modules/streamLinks',{
+              method: 'GET',
+              headers: 
+              {
+                'Content-Type': 'application/json',
+                'Connection': 'keep-alive'
+              },
+        })
+        .then(res =>{
+            if(res.ok)
+            {
+                featuredv=0;newv=0;
+                //console.log("Successfull");
+                res.json().then(function(data)
+                {
+                    for(var i=0;i<data.length;i++)
+                    {
+                        setVideo(data[i],i);
+                    }
+                    ftco_animation();
+                    if(featuredv==0)
+                    {
+                        document.getElementById("featured-video").innerHTML="<div style='width:100%;display:flex;justify-content:center;align-items: center;' id='carousel-loader'><h5 class='text-warning'>There is no featured video.</h5></div>";
+                    }
+                    if(newv==0)
+                    {
+                        document.getElementById("new-video").innerHTML="<div style='width:100%;display:flex;justify-content:center;align-items: center;' id='carousel-loader'><h5 class='text-warning'>There is no newly added video.</h5></div>";
+                    }
+                });
+                
+            }
+            else
+            {
+                toastr.error("We could not connect to internet.");
+            }
+        }).catch(error=> 
+        {
+            toastr.error("We could not connect to internet.");
+        });
+        function setVideo(data,i)
+        {
+            if(data.featured)
+            {
+                if(featuredv==0)
+                {
+                    featuredv=1;
+                    document.getElementById("featured-video").innerHTML="<div class='col-md-6 col-sm-12 col-lg-4 video-cards'><div><div class='one-half img' id='video"+(i)+"-image' style=\"background-image: url('"+data.thumbnail+"'); width:100%;height:250px;\"><a id='video"+i+"-link' href=\"javascript:displayModal('"+data.link+"')\" class='icon d-flex justify-content-center align-items-center'><span class='icon-play'></span></a></div><div class='py-4'><h5 class='mb-1' id='video"+(i)+"-title' style='color:#e5ce48;line-height: 20px;'>"+data.title+"</h5><p style='color: bisque;text-align: justify;font-size: small;line-height: 15px;' id='video"+(i)+"-discription'>"+data.desc+"</p></div></div></div>";
+                }
+                else
+                {
+                   document.getElementById("featured-video").innerHTML+="<div class='col-md-6 col-sm-12 col-lg-4 video-cards'><div><div class='one-half img' id='video"+(i)+"-image' style=\"background-image: url('"+data.thumbnail+"'); width:100%;height:250px;\"><a id='video"+i+"-link' href=\"javascript:displayModal('"+data.link+"')\" class='icon d-flex justify-content-center align-items-center'><span class='icon-play'></span></a></div><div class='py-4'><h5 class='mb-1' id='video"+(i)+"-title' style='color:#e5ce48;line-height: 20px;'>"+data.title+"</h5><p style='color: bisque;text-align: justify;font-size: small;line-height: 15px;' id='video"+(i)+"-discription'>"+data.desc+"</p></div></div></div>";
+                }
+            }
+            else
+            {
+                if(newv==0)
+                {
+                    newv=1;
+                    document.getElementById("new-video").innerHTML="<div class='col-md-6 col-sm-12 col-lg-4 video-cards'><div><div class='one-half img' id='video"+(i)+"-image' style=\"background-image: url('"+data.thumbnail+"'); width:100%;height:250px;\"><a id='video"+i+"-link' href=\"javascript:displayModal('"+data.link+"')\" class='icon d-flex justify-content-center align-items-center'><span class='icon-play'></span></a></div><div class='py-4'><h5 class='mb-1' id='video"+(i)+"-title' style='color:#e5ce48;line-height: 20px;'>"+data.title+"</h5><p style='color: bisque;text-align: justify;font-size: small;line-height: 15px;' id='video"+(i)+"-discription'>"+data.desc+"</p></div></div></div>";
+                }
+                else
+                {
+                   document.getElementById("new-video").innerHTML+="<div class='col-md-6 col-sm-12 col-lg-4 video-cards'><div><div class='one-half img' id='video"+(i)+"-image' style=\"background-image: url('"+data.thumbnail+"'); width:100%;height:250px;\"><a id='video"+i+"-link' href=\"javascript:displayModal('"+data.link+"')\" class='icon d-flex justify-content-center align-items-center'><span class='icon-play'></span></a></div><div class='py-4'><h5 class='mb-1' id='video"+(i)+"-title' style='color:#e5ce48;line-height: 20px;'>"+data.title+"</h5><p style='color: bisque;text-align: justify;font-size: small;line-height: 15px;' id='video"+(i)+"-discription'>"+data.desc+"</p></div></div></div>";
+                }
+            }
+            
+      
+        }
+        var ftco_animation = function() {
+		var i = 0;
+		$('.ftco-animate').waypoint( function( direction ) {
+
+			if( direction === 'down' && !$(this.element).hasClass('ftco-animated') ) {
+				
+				i++;
+
+				$(this.element).addClass('item-animate');
+				setTimeout(function(){
+
+					$('body .ftco-animate.item-animate').each(function(k){
+						var el = $(this);
+						setTimeout( function () {
+							var effect = el.data('animate-effect');
+							if ( effect === 'fadeIn') {
+								el.addClass('fadeIn ftco-animated');
+							} else if ( effect === 'fadeInLeft') {
+								el.addClass('fadeInLeft ftco-animated');
+							} else if ( effect === 'fadeInRight') {
+								el.addClass('fadeInRight ftco-animated');
+							} else {
+								el.addClass('fadeInUp ftco-animated');
+							}
+							el.removeClass('item-animate');
+						},  k * 50, 'easeInOutExpo' );
+					});
+					
+				}, 100);
+				
+			}
+
+		} , { offset: '95%' } );
+	};
+    
+</script>      
+      
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.easing.1.3.js"></script>
+  <script src="js/jquery.waypoints.min.js"></script>
+  <script src="js/jquery.stellar.min.js"></script>
+  <script src="js/owl.carousel.min.js"></script>
+  <script src="js/jquery.magnific-popup.min.js"></script>
+  <script src="js/aos.js"></script>
+  <script src="js/jquery.animateNumber.min.js"></script>
+  <script src="js/bootstrap-datepicker.js"></script>
+  <script src="js/jquery.timepicker.min.js"></script>
+  <script src="js/scrollax.min.js"></script>
+  <script src="js/main.js"></script>
+    
+  </body>
+</html>
